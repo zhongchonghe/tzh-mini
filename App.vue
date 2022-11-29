@@ -1,0 +1,23 @@
+<script>
+export default {
+  onLaunch: function () {
+    console.log("App Launch");
+	console.log(process.env.VUE_APP_BASE_URL);
+	console.log(process.env.NODE_ENV);
+    // #ifdef H5
+    // 去掉tabBar
+    uni.hideTabBar();
+    // #endif
+  },
+  onShow: function () {
+    console.log("App Show");
+  },
+  onHide: function () {
+    console.log("App Hide");
+  },
+};
+</script>
+
+<style>
+/*每个页面公共css */
+</style>

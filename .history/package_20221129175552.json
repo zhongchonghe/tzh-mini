@@ -1,0 +1,37 @@
+{
+  "name": "tzh-mini",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "uni-app": {
+		"scripts": {
+			"dev": {
+				"title": "开发",
+				"env": { 
+					"UNI_PLATFORM": "mp-weixin", 
+					"VUE_APP_BASE_URL":"http://127.0.0.1:8080/" 
+				}
+			},
+			"pre": {
+				"title": "测试版",
+				"env": {
+					"UNI_PLATFORM": "mp-weixin",
+					"VUE_APP_BASE_URL":"http://test.domain/"
+				}
+			},
+			"prod": {
+				"title": "正式版",
+				"env": {
+					"UNI_PLATFORM": "mp-weixin",
+					"VUE_APP_BASE_URL":"http://prod.domain"
+				}
+			}
+		}
+	},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
