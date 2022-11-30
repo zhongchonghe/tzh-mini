@@ -6,34 +6,24 @@
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#000000",
-    "selectedColor": "#fa2209",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
+    "custom": true,
+    "height": "0px",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "iconPath": "static/tabbar/home.png",
-        "selectedIconPath": "static/tabbar/home-active.png",
-        "text": "首页"
+        "pagePath": "pages/index/index"
       },
       {
-        "pagePath": "pages/customer/index",
-        "iconPath": "static/tabbar/cate.png",
-        "selectedIconPath": "static/tabbar/cate-active.png",
-        "text": "客服"
+        "pagePath": "pages/customer/index"
       },
       {
-        "pagePath": "pages/order/index",
-        "iconPath": "static/tabbar/user.png",
-        "selectedIconPath": "static/tabbar/user-active.png",
-        "text": "订单"
+        "pagePath": "pages/order/index"
       }
     ]
   },

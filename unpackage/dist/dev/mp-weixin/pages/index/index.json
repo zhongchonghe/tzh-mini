@@ -1,4 +1,7 @@
 {
-  "enablePullDownRefresh": true,
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "backgroundColor": "#ffffff",
+  "usingComponents": {
+    "tabbar": "/components/tabbar/tabbar"
+  }
 }

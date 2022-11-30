@@ -1,1 +1,1 @@
-<text>客服</text>
+<view><text>客服</text><tabbar vue-id="8bcd06a8-1" current="{{1}}" bind:__l="__l"></tabbar></view>

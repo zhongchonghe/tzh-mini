@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx19b337e2fcc3107c",
         "setting" : {
             "urlCheck" : false
         },
@@ -72,6 +72,22 @@
     "h5" : {
         "router" : {
             "mode" : "history"
+        },
+        "devServer" : {
+            // "https": false,
+            "port" : 8080,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/api" : {
+                    "target" : "https://apiwx1.dev.tingzhihui.com:8888/", // 目标接口域名
+                    "changeOrigin" : true, // 是否跨域
+
+                    // "secure": false, // 设置支持https协议的代理
+                    "pathRewrite" : {
+                        "^/api" : "/"
+                    }
+                }
+            }
         }
     }
 }
