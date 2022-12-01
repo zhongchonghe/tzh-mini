@@ -1,8 +1,7 @@
 <template>
-<view class="">
-	<text>客服</text>
-	<tabbar :current="1"></tabbar>
-</view>
+	<view>
+
+	</view>
 </template>
 
 <script>

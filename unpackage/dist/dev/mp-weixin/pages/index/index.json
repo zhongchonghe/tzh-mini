@@ -2,6 +2,7 @@
   "navigationStyle": "custom",
   "backgroundColor": "#ffffff",
   "usingComponents": {
-    "tabbar": "/components/tabbar/tabbar"
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "tab": "/components/tabbar/tabbar"
   }
 }

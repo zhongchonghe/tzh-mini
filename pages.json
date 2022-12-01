@@ -4,8 +4,6 @@
 	},
 	"tabBar": {
 		"custom": true,
-		"height": "0px",
-
 		"list": [{
 			"pagePath": "pages/index/index"
 		}, {
@@ -16,7 +14,7 @@
 
 		}]
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -36,13 +34,17 @@
 			"style": {
 				"navigationBarTitleText": "订单"
 			}
+		},
+		{
+			"path": "pages/goods/goodsDetail",
+			"style": {}
 		}
 	],
 	"globalStyle": {
 		"backgroundColor": "#F6F6F6",
 		"backgroundTextStyle": "light",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"navigationBarTitleText": "",
+		"navigationBarTitleText": "听智慧",
 		"navigationBarTextStyle": "black"
 
 	},

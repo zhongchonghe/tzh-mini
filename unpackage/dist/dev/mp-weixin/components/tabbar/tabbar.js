@@ -77,32 +77,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
-try {
-  components = {
-    uTabbar: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabbar/u-tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabbar/u-tabbar")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabbar/u-tabbar.vue */ 171))
-    },
-    uTabbarItem: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-tabbar-item/u-tabbar-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-tabbar-item/u-tabbar-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-tabbar-item/u-tabbar-item.vue */ 179))
-    }
-  }
-} catch (e) {
-  if (
-    e.message.indexOf("Cannot find module") !== -1 &&
-    e.message.indexOf(".vue") !== -1
-  ) {
-    console.error(e.message)
-    console.error("1. 排查组件名称拼写是否正确")
-    console.error(
-      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
-    )
-    console.error(
-      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
-    )
-  } else {
-    throw e
-  }
-}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -152,6 +126,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   name: "tabbar",
@@ -161,26 +146,30 @@ var _default =
   data: function data() {
     return {
       isShow: true,
-      list: [{
+      list: [
+      {
         selectedIconPath: "../../static/tabbar/indexOn.png",
         iconPath: "../../static/tabbar/index.png",
-        text: '首页',
+        text: "首页",
         customIcon: false,
-        pagePath: "pages/index/index" },
+        pagePath: "/pages/index/index",
+        type: "" },
 
       {
         selectedIconPath: "../../static/tabbar/customServiceOn.png",
         iconPath: "../../static/tabbar/customService.png",
-        text: '客服',
+        text: "在线客服",
         customIcon: false,
-        pagePath: "pages/customer/index" },
+        pagePath: "/pages/customer/index",
+        type: "contact" },
 
       {
         selectedIconPath: "../../static/tabbar/orderOn.png",
         iconPath: "../../static/tabbar/order.png",
-        text: '订单',
+        text: "订单",
         customIcon: false,
-        pagePath: "pages/order/index" }] };
+        pagePath: "/pages/order/index",
+        type: "" }] };
 
 
 
@@ -194,11 +183,12 @@ var _default =
 
   },
   methods: {
-    changeTab: function changeTab(e) {
-      console.log(e);
-      uni.switchTab({
-        url: '/' + this.list[e].pagePath });
+    changeTab: function changeTab(url, idx) {
+      if (idx != 1) {
+        uni.switchTab({
+          url: url });
 
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

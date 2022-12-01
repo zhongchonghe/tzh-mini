@@ -5,30 +5,31 @@ const pageWhiteList = ['pages/login/login', 'pages/login/phoneLogin'];
 
 export default {
 	// 全局配置
-	common:{
+	common: {
 		// #ifndef H5
 		// baseUrl:"https://test.aladingziben.com/organ",
-		baseUrl:"https://apiwx1.dev.tingzhihui.com:8888",
+		baseUrl: "https://apiwx1.dev.tingzhihui.com:8888",
+		baseUrlDouble: "https://apiwx1.dev.tingzhihui.com:8890",
 		// #endif
 		// #ifdef H5
-		baseUrl:"/api",
+		baseUrl: "/api",
 		// #endif
-		header:{
-			'Content-Type':'application/json;charset=UTF-8',
+		header: {
+			'Content-Type': 'application/json;charset=UTF-8',
 		},
-		data:{},
-		method:'GET',
-		dataType:'json'
+		data: {},
+		method: 'GET',
+		dataType: 'json'
 	},
 	// 请求 返回promise
-	request(options = {}){
+	request(options = {}) {
 		// 组织参数
 		options.url = this.common.baseUrl + options.url
 		options.header = options.header || this.common.header
 		options.data = options.data || this.common.data
 		options.method = options.method || this.common.method
 		options.dataType = options.dataType || this.common.dataType
-		
+
 		// // token
 		// if (options.token) {
 		// 	options.header.token = $store.state.user.token
@@ -43,31 +44,30 @@ export default {
 		// 		});
 		// 	}
 		// }
-		
+
 		// 请求
-		return new Promise((res,rej)=>{
+		return new Promise((res, rej) => {
 			// 请求之前... todo
 			// 请求中...
 			uni.request({
 				...options,
 				success: (result) => {
-					// 返回原始数据
-					if(options.native){
-						return res(result)
-					}
+					// 返回原始数据,做请求前判断
+					// if(options.){
+					// 	return res(result)
+					// }
 					// 服务端失败
-					if(result.statusCode !== 200){
-						if (options.toast !== false) {
-							uni.showToast({
-								title: result.data.msg || '服务端失败',
-								icon: 'none'
-							});
-						}
-						return rej(result.data) 
+					console.log(result);
+					if (result.statusCode !== 200 && result.statusCode !== 400) {
+						uni.showToast({
+							title: result.data.msg || '服务端请求失败',
+							icon: 'none'
+						});
+
+						return rej(result.data)
 					}
 					// 成功
-					let data = result.data.data
-					res(data)
+					res(result.data || result)
 				},
 				fail: (error) => {
 					uni.showToast({
@@ -80,28 +80,28 @@ export default {
 		})
 	},
 	// get请求
-	get(url,data = {},options = {}){
+	get(url, data = {}, options = {}) {
 		options.url = url
 		options.data = data
 		options.method = 'GET'
 		return this.request(options)
 	},
 	// post请求
-	post(url,data = {},options = {}){
+	post(url, data = {}, options = {}) {
 		options.url = url
 		options.data = data
 		options.method = 'POST'
 		return this.request(options)
 	},
 	// delete请求
-	del(url,data = {},options = {}){
+	del(url, data = {}, options = {}) {
 		options.url = url
 		options.data = data
 		options.method = 'DELETE'
 		return this.request(options)
 	},
 	// put请求
-	put(url,data = {},options = {}){
+	put(url, data = {}, options = {}) {
 		options.url = url
 		options.data = data
 		options.method = 'PUT'

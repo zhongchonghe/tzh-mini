@@ -1,6 +1,4 @@
 {
   "navigationBarTitleText": "客服",
-  "usingComponents": {
-    "tabbar": "/components/tabbar/tabbar"
-  }
+  "usingComponents": {}
 }

@@ -1,12 +1,7 @@
 import http from '@/utils/request';
+import api from './apiUrl';
 
-// api地址
-const api = {
-    list: '/crmArticleInfo/detail',
-    update: '/crmArticlePv/update',
-    total: 'comment/total',
-    queryGoodsList: '/buyer/goods',
-  }
+
 export const list = (data) => {
     return http.get(api.list,{...data});
 };
