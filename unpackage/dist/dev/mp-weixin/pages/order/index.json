@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "订单",
-  "usingComponents": {
-    "tabbar": "/components/tabbar/tabbar"
-  }
-}

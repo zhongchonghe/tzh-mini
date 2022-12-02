@@ -1,8 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "backgroundColor": "#ffffff",
-  "usingComponents": {
-    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
-    "tab": "/components/tabbar/tabbar"
-  }
-}

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="head">
+		<view class="head" v-if="isShowTab">
 			<view v-show="ifScollTop" :class="'indexTopFixedBack'" :style="'height:' + navigationBarHeight + 'px'">
 			</view>
 			<view v-show="!ifScollTop" class="pageTopForPic" :style="
@@ -10,6 +10,11 @@
           (navigationBarHeight + statusBarHeight) +
           'px'
         "><text>听智慧-私人定制耳机</text></view>
+		
+		</view>
+		<view class="head" v-else>
+			123
+			<view  class="'indexTopFixedBack'" style="height:60px">456</view>
 		</view>
 		<view class="content" :style="'margin-top:' + (navigationBarHeight - 1) + 'px'">
 			<!-- 背景 -->
@@ -107,6 +112,7 @@
 				platform: (state) => state.app.platform,
 				isIphoneX: (state) => state.app.isIphoneX,
 				isIphoneXII: (state) => state.app.isIphoneXII,
+				isShowTab: (state) => state.app.isShowTab,
 			}),
 		},
 		onLoad() {
@@ -114,36 +120,30 @@
 			console.log(this.isIphoneX);
 			console.log("this.isIphoneXII");
 			console.log(this.isIphoneXII);
+			// #ifdef H5
+			document.title ='听智慧-私人定制耳机'
+			// #endif
 			// 判断当前设备
 			uni.getSystemInfo({
 				success: (data) => {
+					// #ifndef H5 || APP-PLUS || MP-ALIPAY
 					let custom = uni.getMenuButtonBoundingClientRect();
 					this.statusBarHeight = data.statusBarHeight;
 					//导航栏高度 = 状态栏到胶囊的间距（胶囊距上距离-状态栏高度） * 2 + 胶囊高度 + 状态栏高度。
 					this.navigationBarHeight =
 						custom.bottom + custom.top - data.statusBarHeight;
 					console.log(this.navigationBarHeight);
+					// #endif
 				},
 			});
-			uni.hideTabBar();
-			// list({
-			//   id: "1594656313760157696",
-			// }).then((res) => {
-			//   console.log(res);
-			// });
-			// updateInfo({
-			//   id: "1597780061174501376",
-			//   duration: 5,
-			// }).then((res) => {
-			//   console.log(res);
-			// });
+
 			// #ifdef H5
 			console.log("h5");
 			// #endif
 			// #ifdef MP
 			console.log("小程序");
 			// #endif
-
+			console.log(this.$store.state);
 			this.getList();
 			this.getUser();
 		},

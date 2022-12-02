@@ -1,5 +1,5 @@
 <template>
-  <cover-view class="tab-bar">
+  <cover-view class="tab-bar" v-if="isShowTab">
     <cover-view class="tab-bar-border"></cover-view>
     <cover-view
       v-for="(item, index) in list"
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from "vuex";
 export default {
   name: "tabbar",
   props: {
@@ -58,6 +61,11 @@ export default {
       ],
     };
   },
+  computed: {
+  	...mapState({
+  		isShowTab: (state) => state.app.isShowTab,
+  	}),
+  },
   created() {
     //隐藏原生tabbar
     uni.hideTabBar();
@@ -88,6 +96,7 @@ export default {
   background: white;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1000;
 }
 
 .tab-bar-border {
