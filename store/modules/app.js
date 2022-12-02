@@ -8,7 +8,9 @@ const app = {
 		isIphoneXII: '',
 
 		// 是否显示底部tabbar
-		isShowTab: true
+		isShowTab: true,
+		// 返回首页
+		loginBack: false
 
 	},
 
@@ -24,6 +26,9 @@ const app = {
 		},
 		SET_IS_SHOWTAB: (state, value) => {
 			state.isShowTab = value
+		},
+		SET_LOGIN_BACK: (state, value) => {
+			state.loginBack = value
 		},
 	},
 
@@ -54,7 +59,7 @@ const app = {
 		// 设置是否显示底部tabbar
 		setIsShowTab({
 			commit
-		}, value) {
+		}) {
 			// #ifdef MP
 			commit('SET_IS_SHOWTAB', true)
 			// #endif
@@ -63,6 +68,12 @@ const app = {
 			commit('SET_IS_SHOWTAB', false)
 
 			// #endif
+		},
+		// 设置返回首页
+		setLoginBack({
+			commit
+		}, value) {
+			commit('SET_LOGIN_BACK', value)
 		}
 
 	}

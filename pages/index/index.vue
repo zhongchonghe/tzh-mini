@@ -10,22 +10,19 @@
           (navigationBarHeight + statusBarHeight) +
           'px'
         "><text>听智慧-私人定制耳机</text></view>
-		
+
 		</view>
-		<view class="head" v-else>
-			123
-			<view  class="'indexTopFixedBack'" style="height:60px">456</view>
-		</view>
+
+		<view v-else class="indexTopFixedBack" style="height:60px"></view>
+
 		<view class="content" :style="'margin-top:' + (navigationBarHeight - 1) + 'px'">
 			<!-- 背景 -->
 			<view style="position: relative">
 				<image mode="widthFix" src="https://images.tingzhihui.com/webh5/liswit/indexTop.png" class="indexTop">
 				</image>
-				<image mode="widthFix" src="https://images.tingzhihui.com/webh5/liswit/indexTopBorder.png"
-					class="indexTopBorder"></image>
+				<image mode="widthFix" src="https://images.tingzhihui.com/webh5/liswit/indexTopBorder.png" class="indexTopBorder"></image>
 
-				<image src="https://images.tingzhihui.com/webh5/liswit/indexTopUser.png" v-if="loginUser"
-					class="indexTopUser"></image>
+				<image src="https://images.tingzhihui.com/webh5/liswit/indexTopUser.png" v-if="loginUser" class="indexTopUser"></image>
 				<view class="userDiv" v-if="loginUser">
 					<image mode="aspectFill" :src="headFace" class="userImg" alt="" @tap="jumpMyCenter"></image>
 					<view class="welcomeText" @tap="jumpMyCenter">欢迎回来</view>
@@ -43,9 +40,7 @@
 			<!-- 商品列表 -->
 			<view v-if="shopArray.length">
 				<view class="indexEarModule" @tap="jumpGoods(item.id,item.skuList[0].id)" v-for="item in shopArray" :key="item.id">
-					<image v-if="item.customized"
-						src="https://images.tingzhihui.com/webh5/liswit/individuationGoodsLabel.png"
-						class="individuationGoodsLabelImg"></image>
+					<image v-if="item.customized" src="https://images.tingzhihui.com/webh5/liswit/individuationGoodsLabel.png" class="individuationGoodsLabelImg"></image>
 
 					<image :src="item.original" class="indexEarImg" mode="aspectFill"></image>
 
@@ -71,25 +66,19 @@
 </template>
 
 <script>
-	import {
-		mapState
-	} from "vuex";
+	import { mapState } from 'vuex'
 
-	import tab from "@/components/tabbar/tabbar.vue";
-	import unlogin from "@/static/images/user-unlogin.png";
+	import tab from '@/components/tabbar/tabbar.vue'
+	import unlogin from '@/static/images/user-unlogin.png'
 	// import { formatPrice } from '@/utils/index.js'
-	import {
-		getUser
-	} from "@/api/user.js";
+	import { getUser } from '@/api/user.js'
 
-	import {
-		format
-	} from "@/utils/mixin.js";
+	import { format } from '@/utils/mixin.js'
 	import {
 		list,
 		updateInfo,
 		goodsList
-	} from "@/api/list";
+	} from '@/api/list'
 	export default {
 		data() {
 			return {
@@ -98,61 +87,56 @@
 				navigationBarHeight: 0,
 				shopArray: [],
 				total: 0,
-				userName: "",
-				headFace: "",
+				userName: '',
+				headFace: '',
 				loginUser: false,
-			};
+			}
 		},
-		components: {
-			tab,
-		},
+		components: { tab, },
 		mixins: [format],
 		computed: {
 			...mapState({
-				platform: (state) => state.app.platform,
-				isIphoneX: (state) => state.app.isIphoneX,
-				isIphoneXII: (state) => state.app.isIphoneXII,
-				isShowTab: (state) => state.app.isShowTab,
+				platform: state => state.app.platform,
+				isIphoneX: state => state.app.isIphoneX,
+				isIphoneXII: state => state.app.isIphoneXII,
+				isShowTab: state => state.app.isShowTab,
 			}),
 		},
 		onLoad() {
-			console.log("this.isIphoneX");
-			console.log(this.isIphoneX);
-			console.log("this.isIphoneXII");
-			console.log(this.isIphoneXII);
+
+
 			// #ifdef H5
-			document.title ='听智慧-私人定制耳机'
+			document.title = '听智慧-私人定制耳机'
 			// #endif
 			// 判断当前设备
 			uni.getSystemInfo({
-				success: (data) => {
+				success: data => {
 					// #ifndef H5 || APP-PLUS || MP-ALIPAY
-					let custom = uni.getMenuButtonBoundingClientRect();
-					this.statusBarHeight = data.statusBarHeight;
+					let custom = uni.getMenuButtonBoundingClientRect()
+					this.statusBarHeight = data.statusBarHeight
 					//导航栏高度 = 状态栏到胶囊的间距（胶囊距上距离-状态栏高度） * 2 + 胶囊高度 + 状态栏高度。
-					this.navigationBarHeight =
-						custom.bottom + custom.top - data.statusBarHeight;
-					console.log(this.navigationBarHeight);
+					this.navigationBarHeight = custom.bottom + custom.top - data.statusBarHeight
+					console.log(this.navigationBarHeight)
 					// #endif
 				},
-			});
+			})
 
 			// #ifdef H5
-			console.log("h5");
+			console.log('h5')
 			// #endif
 			// #ifdef MP
-			console.log("小程序");
+			console.log('小程序')
 			// #endif
-			console.log(this.$store.state);
-			this.getList();
-			this.getUser();
+			console.log(this.$store.state)
+			this.getList()
+			this.getUser()
 		},
 		// 监听屏幕滚动
 		onPageScroll(e) {
 			if (e.scrollTop > 0) {
-				this.ifScollTop = false;
+				this.ifScollTop = false
 			} else {
-				this.ifScollTop = true;
+				this.ifScollTop = true
 			}
 		},
 
@@ -165,15 +149,21 @@
 					code,
 					result
 				} = await goodsList({
-					isAuth: "PASS",
-					marketEnable: "UPPER",
+					isAuth: 'PASS',
+					marketEnable: 'UPPER',
 					recommend: true,
 					pageSize: 10,
 					pageNumber: 1,
-				});
-				if (code != 200) return;
-				this.total = result.total;
-				this.shopArray = result.records;
+				})
+				if (code != 200) return
+				this.total = result.total
+				this.shopArray = result.records
+			},
+			closeUser(e) {
+				console.log(e)
+			},
+			getuserinfo(e) {
+				console.log(e)
 			},
 			// 获取用户信息
 			async getUser() {
@@ -182,38 +172,36 @@
 						code,
 						result,
 						success
-					} = await getUser();
+					} = await getUser()
 					if (success && !!result) {
 						// 有用户信息
-						(this.userName = !!res.result.nickName ? res.result.nickName : ""),
+						(this.userName = !!res.result.nickName ? res.result.nickName : ''),
 						(this.headFace = !!res.result.face ? res.result.face : unlogin),
-						(this.loginUser = true);
-						this.queryLastOrder();
+						(this.loginUser = true)
+						this.queryLastOrder()
 					} else if (success) {
-						this.userName = "";
-						this.headFace = unlogin;
-						this.loginUser = true;
-						this.queryLastOrder();
+						this.userName = ''
+						this.headFace = unlogin
+						this.loginUser = true
+						this.queryLastOrder()
 					}
 				} catch (ex) {
-					if (ex.status == 403 || ex.message == "用户未登录") {
-						this.loginUser = false;
+					if (ex.status == 403 || ex.message == '用户未登录') {
+						this.loginUser = false
 					} else {
-						this.$u.toast("网络开小差了，请稍后再试");
+						this.$u.toast('网络开小差了，请稍后再试')
 					}
 				}
 			},
 			// 商品详情
-			jumpGoods(id,skuid) {
+			jumpGoods(id, skuid) {
 
-				uni.navigateTo({
-					url: `/pages/goods/goodsDetail?id=${id}&skuid=${skuid}`,
-				});
+				uni.navigateTo({ url: `/pages/goods/goodsDetail?id=${id}&skuid=${skuid}`, })
 			},
 			switch () {},
 			change() {},
 		},
-	};
+	}
 </script>
 
 <style scoped lang="scss">

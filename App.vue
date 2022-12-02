@@ -8,6 +8,7 @@
 			this.$store.dispatch("getIosVersion");
 			this.$store.dispatch("setIsShowTab");
 			uni.hideTabBar();
+			
 		},
 		onShow: function() {
 			console.log("App Show");
