@@ -1,25 +1,105 @@
 <template>
-	<view class="">
-		<text>订单1</text>
-		<tabbar :current="2"></tabbar>
-	</view>
+	<view class="content">
+		<view  class="pageTopForPic" :style="
+          'height:' +
+          navigationBarHeight +
+          'px;line-height:' +
+          (navigationBarHeight + statusBarHeight) +
+          'px'
+        "><text>订单</text></view>
+        <view v-if="orderList.length" style="">
+            <view class="orderModule" @tap="jumpDetail" v-for="(item) in orderList" :key="item.sn">
+                <image :src="'https://images.tingzhihui.com/webh5/liswit/orderListIcon' + item.statu + '.png'" class="orderLabelImg" v-if="item.statu != 9"></image>
+
+                <view class="orderCode">订单号：{{ item.sn }}</view>
+
+                <view class="orderGoodsDiv">
+                    <view style="position: relative" v-for="(ele) in (item.orderItems.slice(0,3))" :key="ele.sn">
+                        <image src="https://images.tingzhihui.com/webh5/liswit/individuationGoodsLabelS.png" class="individuationGoodsLabelS" v-if="ele.customized"></image>
+                        <image :src="ele.image? ele.image : 'https://images.tingzhihui.com/webh5/liswit/defaultPicF.png'" class="orderGoodsImg"></image>
+                    </view>
+
+                    <view class="orderGoodsName twoLine" v-if="item.orderItems.length == 1">{{ item.groupName }}</view>
+                    <view class="orderGoodsPrice">
+                        <text class="orderGoodsPriceChangeSmall">￥</text>
+                        {{ formatPrice(1, item.flowPrice) }}
+                        <view class="orderGoodsNum">共{{ item.num }}件</view>
+                    </view>
+                </view>
+
+                <view class="orderGoodsTimeDiv">
+                    <image src="https://images.tingzhihui.com/webh5/liswit/orderCutLine.png" class="orderCutLineImg"></image>
+                    下单时间：{{ item.createTime }}
+                    <view
+                        class="orderToPay"
+                        @tap.stop.prevent="toPay"
+                        :data-statu="item.statu"
+                        :data-id="item.sn"
+                        :data-type="item.orderType"
+                        :data-way="!!item.takeEarPrintWay ? item.takeEarPrintWay : ''"
+                        v-if="item.statu == 1 || item.statu == 7"
+                    >
+                        去支付
+                        <image src="https://images.tingzhihui.com/webh5/liswit/blackRightJT.png" class="toPayRightJTImg"></image>
+                    </view>
+                    <view class="orderSeeDetail" v-if="item.statu != 1 && item.statu != 7">查看详情</view>
+                </view>
+            </view>
+        </view>
+
+        <view v-else style="text-align: center">
+            <image class="indexNull" src="https://images.tingzhihui.com/webh5/liswit/orderNull.png"></image>
+            <view class="indexNullName">您还未购买任何商品</view>
+        </view>
+
+        <!-- <view class="weui-loadmore" style="margin-top: 50%" v-if="isLoading">
+            <view class="weui-loading"></view>
+            <view class="weui-loadmore__tips">正在加载</view>
+        </view> -->
+
+        <view class="JumpShadeDiv" style="padding-top: 65%; text-align: center" v-if="isPay">
+            <view class="weui-loading"></view>
+            <view class="payWaitTip">支付中...</view>
+        </view>
+
+        <view style="height: 150rpx"></view>
+        <view :class="isIphoneX && !isIphoneXII ? 'ifIphoneX' : ''"></view>
+
+        <view :class="isIphoneXII ? 'isIphoneXII' : ''"></view>
+		<tab :current="2"></tab>
+
+    </view>
 </template>
 
 <script>
+	import tab from '@/components/tabbar/tabbar.vue'
 	import { orderList } from '@/api/order'
 	import { isAuth } from '@/utils/auth'
 	import { mapState } from 'vuex'
+	import { format } from '@/utils/mixin.js'
 
+	const orderStatus=['UNPAID','PAID','UNDELIVERED','DELIVERED','COMPLETED','TO_TAKE_EAR_PRINT','TO_PAY_BALANCE','CUSTOMIZING','TAKE','CANCELLED','???????????','DEPOSIT_PAID']
 	export default {
 		data() {
 			return {
 				page: {
 					pageNumber: 1,
 					pageSize: 10,
-				}
+				},
+				orderList: [],
+
 			}
 		},
-		computed: { ...mapState({ loginBack: state => state.app.loginBack, }), },
+		components: { tab, },
+		mixins: [format],
+
+		computed: { ...mapState({ 
+			loginBack: state => state.app.loginBack,
+			statusBarHeight: state => state.app.statusBarHeight,
+			navigationBarHeight: state => state.app.navigationBarHeight,
+		
+		
+		}), },
 		onLoad() {
 			uni.hideTabBar()
 
@@ -33,64 +113,20 @@
 			getList() {
 				orderList(this.page).then(res => {
 					if (res.success) {
-						var data = res.result.records
-						if (this.data.page == 1 && data.length == 0) {
-							this.setData({ ifNull: true, })
-						} else {
-							this.setData({ ifNull: false, })
-						}
-						if (res.result.pages == this.data.page) {
-							this.setData({ ifEnd: true, })
-						}
-						for (let i = 0; i < data.length; i++) {
-							if (data[i].orderStatus == 'UNPAID') {
-								//待支付 orderListIcon1
-								data[i].statu = 1
-							} else if (data[i].orderStatus == 'PAID') {
-								//已付款 orderListIcon2
-								data[i].statu = 2
-							} else if (data[i].orderStatus == 'UNDELIVERED') {
-								//待发货 orderListIcon3
-								data[i].statu = 3
-							} else if (data[i].orderStatus == 'DELIVERED') {
-								//已发货 orderListIcon4
-								data[i].statu = 4
-							} else if (data[i].orderStatus == 'COMPLETED') {
-								//已完成 orderListIcon5
-								data[i].statu = 5
-							} else if (data[i].orderStatus == 'TO_TAKE_EAR_PRINT' || data[i].orderStatus == 'DEPOSIT_PAID') {
-								//待取耳印 orderListIcon6
-								data[i].statu = 6
-							} else if (data[i].orderStatus == 'TO_PAY_BALANCE') {
-								//待付尾款 orderListIcon7
-								data[i].statu = 7
-							} else if (data[i].orderStatus == 'CUSTOMIZING') {
-								//定制中 orderListIcon8
-								data[i].statu = 8
-							} else if (data[i].orderStatus == 'TAKE') {
-								//待核验 orderListIcon9
-								data[i].statu = 9
-							} else if (data[i].orderStatus == 'CANCELLED') {
-								//已取消 orderListIcon10
-								data[i].statu = 10
-							} else if (data[i].orderStatus == '???????????') {
-								//已退款 orderListIcon11
-								data[i].statu = 11
+						this.orderList.push(...res.result.records)
+						this.orderList.map(item => {
+							let idx = orderStatus.indexOf(item.orderStatus)
+							if (idx!=-1) {
+								if (idx==11) {
+									item.statu = 6
+								}else{
+									item.statu = idx+1
+								}
 							}
-							var num = 0
-							for (let j = 0; j < data[i].orderItems.length; j++) {
-								num = num + parseInt(data[i].orderItems[j].num)
-							}
-							data[i].num = num
-						}
-						if (type != 0 && this.data.orderList.length > 0) {
-							data = this.data.orderList.concat(data)
-						}
-						this.setData({
-							isLoading: false,
-							orderList: data,
+							item.num = item.orderItems.reduce((total, item) => {
+								return total + parseInt(item.num)
+							}, 0)
 						})
-						//Request URL: https://apiwx1.dev.tingzhihui.com:8888/buyer/cashier/tradeDetail?orderType=TRADE&sn=T202201141481817229870759936&clientType=PC
 					}
 				}).catch(ex => {
 					if (ex.status == 403 || ex.message == '用户未登录') {
@@ -115,10 +151,20 @@
 						app.showMsg(ex.message)
 					}
 				})
+			},
+			jumpDetail(){
+
 			}
 		},
 	}
 </script>
 
 <style>
+page{
+	background: #f2f4f9
+}
+</style>
+<style  scoped>
+
+@import './order.css';
 </style>

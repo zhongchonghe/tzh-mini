@@ -4,15 +4,17 @@
 	},
 	"tabBar": {
 		"custom": true,
-		"list": [{
-			"pagePath": "pages/index/index"
-		}, {
-			"pagePath": "pages/customer/index"
-
-		}, {
-			"pagePath": "pages/order/index"
-
-		}]
+		"list": [
+			{
+				"pagePath": "pages/index/index"
+			},
+			{
+				"pagePath": "pages/customer/index"
+			},
+			{
+				"pagePath": "pages/order/index"
+			}
+		]
 	},
 	"pages": [
 		{
@@ -27,12 +29,11 @@
 			"style": {
 				"navigationBarTitleText": "客服"
 			}
-
 		},
 		{
 			"path": "pages/order/index",
 			"style": {
-				"navigationBarTitleText": "订单"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -52,7 +53,6 @@
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"navigationBarTitleText": "听智慧",
 		"navigationBarTextStyle": "black"
-
 	},
 	"uniIdRouter": {}
 }

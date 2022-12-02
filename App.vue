@@ -7,6 +7,10 @@
 			// 调用vuex的getIosVersion
 			this.$store.dispatch("getIosVersion");
 			this.$store.dispatch("setIsShowTab");
+			// #ifndef H5 || APP-PLUS || MP-ALIPAY
+			this.$store.dispatch("getNavigationBarHeight");
+			// #endif
+
 			uni.hideTabBar();
 			
 		},
